@@ -71,5 +71,15 @@ export function buildEnquiryMessage(name: string, mobile: string, message: strin
 export function openWhatsApp(whatsappNumber: string, message: string) {
   const digitsOnly = whatsappNumber.replace(/\D/g, "");
   const url = `https://wa.me/${digitsOnly}?text=${encodeURIComponent(message)}`;
-  window.open(url, "_blank", "noopener,noreferrer");
+
+  // Mobile browsers frequently block or mishandle window.open() when it
+  // hands off to another app — a same-tab navigation is what reliably
+  // triggers the WhatsApp app there. Desktop keeps the new-tab behavior
+  // since there's no app to hand off to (wa.me shows a QR/web page).
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if (isMobile) {
+    window.location.href = url;
+  } else {
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
 }
