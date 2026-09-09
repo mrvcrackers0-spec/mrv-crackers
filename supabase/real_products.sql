@@ -1,0 +1,228 @@
+-- ============================================================
+-- MRV Crackers — real product catalog
+-- Replaces ALL demo/placeholder categories & products with the
+-- actual MRV Crackers catalog. Safe to re-run (wipes and reloads).
+--
+-- Elephant Crackers and Ground Chakkar Special have no price yet —
+-- they're added below at Rs.0 and marked INACTIVE (hidden from the
+-- storefront) so nothing broken shows to customers. Set the real
+-- price and flip them Active from /admin/products once known.
+-- ============================================================
+
+delete from public.products;
+delete from public.categories;
+
+-- ------------------------------------------------------------
+-- Categories (display order)
+-- ------------------------------------------------------------
+insert into public.categories (name, slug, display_order, is_active) values
+  ('Special Items', 'special-items', 1, true),
+  ('Crackers', 'crackers', 2, true),
+  ('Loose Crackers', 'loose-crackers', 3, true),
+  ('Rockets', 'rockets', 4, true),
+  ('Sparklers', 'sparklers', 5, true),
+  ('Wheels', 'wheels', 6, true),
+  ('Flower Pots', 'flower-pots', 7, true),
+  ('Fancy Items', 'fancy-items', 8, true),
+  ('Colour Matches', 'colour-matches', 9, true),
+  ('Bombs', 'bombs', 10, true),
+  ('Multi Colour Shots', 'multi-colour-shots', 11, true),
+  ('Single Shot', 'single-shot', 12, true),
+  ('Gift Boxes', 'gift-boxes', 13, true),
+  ('One Sound Crackers', 'one-sound-crackers', 14, true),
+  ('Ground Crackers', 'ground-crackers', 15, true);
+
+-- ------------------------------------------------------------
+-- Products (linked to categories via slug lookup)
+-- ------------------------------------------------------------
+insert into public.products (category_id, name, slug, selling_price, display_order, is_active)
+select c.id, v.name, v.slug, v.selling_price, v.display_order, v.is_active
+from (values
+  -- Special Items
+  ('special-items', 'Cartoon', 'cartoon', 25, 1, true),
+  ('special-items', 'Electric Stone', 'electric-stone', 10, 2, true),
+  ('special-items', 'Magic Glittering', 'magic-glittering', 10, 3, true),
+  ('special-items', '12" Twinkling Star', '12-inch-twinkling-star', 25, 4, true),
+  ('special-items', '4" Twinkling Star', '4-inch-twinkling-star', 70, 5, true),
+  ('special-items', '7" Pencil', '7-inch-pencil', 50, 6, true),
+  ('special-items', 'Enjoy Pencil', 'enjoy-pencil', 70, 7, true),
+  ('special-items', 'Welcome Hand Showers', 'welcome-hand-showers', 240, 8, true),
+  ('special-items', 'Snake Tablet Small', 'snake-tablet-small', 20, 9, true),
+  ('special-items', 'Snake Tablet Big', 'snake-tablet-big', 25, 10, true),
+  ('special-items', 'Kit Kat', 'kit-kat', 25, 11, true),
+  ('special-items', 'Bada Kit Kat', 'bada-kit-kat', 40, 12, true),
+  ('special-items', 'Roll Cap', 'roll-cap', 60, 13, true),
+  ('special-items', 'Ring Cap', 'ring-cap', 10, 14, true),
+  ('special-items', 'Colour Shower Big', 'colour-shower-big', 100, 15, true),
+  ('special-items', 'Adiyal Small (10)', 'adiyal-small-10', 300, 16, true),
+  ('special-items', 'Adiyal Mega (10)', 'adiyal-mega-10', 350, 17, true),
+  ('special-items', 'Cylinder Bomb', 'cylinder-bomb', 200, 18, true),
+  ('special-items', 'Deluxe Bomb', 'deluxe-bomb', 140, 19, true),
+  -- Crackers
+  ('crackers', '28 C. Crackers', '28c-crackers', 15, 1, true),
+  ('crackers', '98 G. Crackers', '98g-crackers', 30, 2, true),
+  ('crackers', '100 Crackers', '100-crackers', 50, 3, true),
+  ('crackers', '1K Crackers', '1k-crackers', 180, 4, true),
+  ('crackers', '2K Crackers', '2k-crackers', 360, 5, true),
+  ('crackers', '5K Crackers', '5k-crackers', 900, 6, true),
+  ('crackers', '10K Crackers', '10k-crackers', 1800, 7, true),
+  ('crackers', 'ARD Incredibles', 'ard-incredibles', 550, 8, true),
+  ('crackers', 'ARD Red Scorpion', 'ard-red-scorpion', 1100, 9, true),
+  ('crackers', 'ARD Jumbo Man', 'ard-jumbo-man', 1650, 10, true),
+  -- Loose Crackers
+  ('loose-crackers', 'Bijili 50 pcs', 'bijili-50-pcs', 10, 1, true),
+  ('loose-crackers', 'Bijili 100 pcs', 'bijili-100-pcs', 25, 2, true),
+  ('loose-crackers', 'PL Bijili 50 pcs', 'pl-bijili-50-pcs', 15, 3, true),
+  ('loose-crackers', 'PL Bijili 100 pcs', 'pl-bijili-100-pcs', 30, 4, true),
+  ('loose-crackers', 'Motta Bijili 100 pcs', 'motta-bijili-100-pcs', 60, 5, true),
+  ('loose-crackers', 'ARD''s Bijili 100 pcs', 'ards-bijili-100-pcs', 40, 6, true),
+  -- Rockets
+  ('rockets', 'Baby Rocket', 'baby-rocket', 50, 1, true),
+  ('rockets', 'Rocket Bomb', 'rocket-bomb', 70, 2, true),
+  ('rockets', 'Lunik Rocket', 'lunik-rocket', 120, 3, true),
+  ('rockets', '3 Sound Rocket', '3-sound-rocket', 160, 4, true),
+  ('rockets', 'ARD''s Rocket Bomb', 'ards-rocket-bomb', 90, 5, true),
+  ('rockets', 'ARD''s Baby Rocket', 'ards-baby-rocket', 50, 6, true),
+  ('rockets', 'Whistling Rocket', 'whistling-rocket', 220, 7, true),
+  -- Sparklers
+  ('sparklers', '7cm Electric Sparklers', '7cm-electric-sparklers', 8, 1, true),
+  ('sparklers', '7cm Colour Sparklers', '7cm-colour-sparklers', 9, 2, true),
+  ('sparklers', '10cm Electric Sparklers', '10cm-electric-sparklers', 16, 3, true),
+  ('sparklers', '10cm Colour Sparklers', '10cm-colour-sparklers', 18, 4, true),
+  ('sparklers', '10cm Red Sparklers', '10cm-red-sparklers', 20, 5, true),
+  ('sparklers', '10cm Green Sparklers', '10cm-green-sparklers', 24, 6, true),
+  ('sparklers', '12cm Electric Sparklers', '12cm-electric-sparklers', 24, 7, true),
+  ('sparklers', '12cm Colour Sparklers', '12cm-colour-sparklers', 26, 8, true),
+  ('sparklers', '15cm Electric Sparklers', '15cm-electric-sparklers', 45, 9, true),
+  ('sparklers', '15cm Colour Sparklers', '15cm-colour-sparklers', 50, 10, true),
+  ('sparklers', '30cm Electric Sparklers', '30cm-electric-sparklers', 45, 11, true),
+  ('sparklers', '30cm Colour Sparklers', '30cm-colour-sparklers', 50, 12, true),
+  ('sparklers', '50cm Electric Sparklers', '50cm-electric-sparklers', 200, 13, true),
+  ('sparklers', '75cm Electric Sparklers', '75cm-electric-sparklers', 300, 14, true),
+  -- Wheels
+  ('wheels', 'Giant Wheel', 'giant-wheel', 280, 1, true),
+  ('wheels', 'Ground Chakkar Asoka', 'ground-chakkar-asoka', 90, 2, true),
+  ('wheels', '4 x 4 Wheel', '4x4-wheel', 200, 3, true),
+  ('wheels', 'Whistling Wheel', 'whistling-wheel', 280, 4, true),
+  -- Flower Pots
+  ('flower-pots', 'Flower Pots Small', 'flower-pots-small', 50, 1, true),
+  ('flower-pots', 'Flower Pots Big', 'flower-pots-big', 90, 2, true),
+  ('flower-pots', 'Flower Pots Special', 'flower-pots-special', 120, 3, true),
+  ('flower-pots', 'Flower Pots Special Red', 'flower-pots-special-red', 160, 4, true),
+  ('flower-pots', 'Flower Pots Asoka', 'flower-pots-asoka', 160, 5, true),
+  ('flower-pots', 'Flower Pots Giant', 'flower-pots-giant', 200, 6, true),
+  ('flower-pots', 'Colour Koti', 'colour-koti', 220, 7, true),
+  ('flower-pots', 'Colour Koti Deluxe', 'colour-koti-deluxe', 300, 8, true),
+  ('flower-pots', 'Tri Colour Fountain', 'tri-colour-fountain', 280, 9, true),
+  -- Fancy Items
+  ('fancy-items', '7 Shots (5 pcs)', '7-shots-5-pcs', 120, 1, true),
+  ('fancy-items', 'Penta Collections (6 pcs)', 'penta-collections-6-pcs', 220, 2, true),
+  ('fancy-items', 'Sky Shots (10 pcs)', 'sky-shots-10-pcs', 150, 3, true),
+  ('fancy-items', 'Helicopter', 'helicopter', 80, 4, true),
+  ('fancy-items', 'Bamparam', 'bamparam', 120, 5, true),
+  ('fancy-items', 'Butterfly', 'butterfly', 80, 6, true),
+  ('fancy-items', 'B Mini Peacock', 'b-mini-peacock', 100, 7, true),
+  ('fancy-items', 'Peacock 3 Face', 'peacock-3-face', 140, 8, true),
+  ('fancy-items', 'Bada Peacock', 'bada-peacock', 360, 9, true),
+  ('fancy-items', 'Purple Peacock', 'purple-peacock', 360, 10, true),
+  ('fancy-items', 'Golden Duck', 'golden-duck', 250, 11, true),
+  ('fancy-items', 'Starvel Race Car', 'starvel-race-car', 400, 12, true),
+  ('fancy-items', 'Racing Car', 'racing-car', 180, 13, true),
+  ('fancy-items', 'Ravindra''s Angry Birds', 'ravindras-angry-birds', 400, 14, true),
+  ('fancy-items', 'Candy Crush', 'candy-crush', 400, 15, true),
+  ('fancy-items', 'Money Bunker', 'money-bunker', 150, 16, true),
+  ('fancy-items', 'Black Money', 'black-money', 350, 17, true),
+  ('fancy-items', 'Magic Show', 'magic-show', 280, 18, true),
+  ('fancy-items', 'K.A.F Gun', 'kaf-gun', 200, 19, true),
+  ('fancy-items', 'Standard Jumping Frog', 'standard-jumping-frog', 160, 20, true),
+  ('fancy-items', 'Ladoo', 'ladoo', 240, 21, true),
+  ('fancy-items', 'Nathiyaleya (5 pcs)', 'nathiyaleya-5-pcs', 100, 22, true),
+  ('fancy-items', 'Starvel Emu Egg', 'starvel-emu-egg', 280, 23, true),
+  ('fancy-items', 'Chotta Bheem 5 in 1', 'chotta-bheem-5-in-1', 150, 24, true),
+  ('fancy-items', 'Ravindra Tasty 5 in 1', 'ravindra-tasty-5-in-1', 300, 25, true),
+  ('fancy-items', 'Siren', 'siren', 200, 26, true),
+  ('fancy-items', 'Mini Siren', 'mini-siren', 180, 27, true),
+  ('fancy-items', 'Starvel Water Queen', 'starvel-water-queen', 220, 28, true),
+  ('fancy-items', 'Ravindra Pop Star', 'ravindra-pop-star', 160, 29, true),
+  ('fancy-items', 'I Cone', 'i-cone', 200, 30, true),
+  ('fancy-items', 'Starvel Triple Monkey', 'starvel-triple-monkey', 280, 31, true),
+  ('fancy-items', 'Starvel Motthu Patlu 9', 'starvel-motthu-patlu-9', 280, 32, true),
+  ('fancy-items', 'Tin Series', 'tin-series', 90, 33, true),
+  ('fancy-items', 'Photo Flash', 'photo-flash', 60, 34, true),
+  ('fancy-items', 'Crack Jack 3 pcs', 'crack-jack-3-pcs', 350, 35, true),
+  ('fancy-items', 'Ganga Jamuna', 'ganga-jamuna', 120, 36, true),
+  ('fancy-items', 'Standard Little Dragon', 'standard-little-dragon', 350, 37, true),
+  ('fancy-items', 'Starvel 20-20', 'starvel-20-20', 300, 38, true),
+  ('fancy-items', 'Water Queen', 'water-queen', 240, 39, true),
+  -- Colour Matches
+  ('colour-matches', 'Express Jumbo', 'express-jumbo', 90, 1, true),
+  ('colour-matches', 'Dino Twin 1', 'dino-twin-1', 150, 2, true),
+  -- Bombs
+  ('bombs', 'Hydro Bomb ARD''s', 'hydro-bomb-ards', 90, 1, true),
+  ('bombs', 'Juc Muc 3000', 'juc-muc-3000', 90, 2, true),
+  ('bombs', 'Juc Muc 5000', 'juc-muc-5000', 100, 3, true),
+  ('bombs', 'Special Tiger Bomb', 'special-tiger-bomb', 280, 4, true),
+  ('bombs', 'ARD''s Indian Dynamite', 'ards-indian-dynamite', 120, 5, true),
+  ('bombs', 'Spider Bomb', 'spider-bomb', 280, 6, true),
+  ('bombs', 'Lion Deluxe Bomb', 'lion-deluxe-bomb', 400, 7, true),
+  ('bombs', 'ARD''s Bullet Bomb', 'ards-bullet-bomb', 40, 8, true),
+  ('bombs', 'Military Bomb', 'military-bomb', 100, 9, true),
+  ('bombs', '555 Bomb', '555-bomb', 100, 10, true),
+  ('bombs', 'Paper Bomb 250', 'paper-bomb-250', 40, 11, true),
+  ('bombs', 'Paper Bomb 500', 'paper-bomb-500', 90, 12, true),
+  -- Multi Colour Shots
+  ('multi-colour-shots', '6 Shot Multi Colour', '6-shot-multi-colour', 110, 1, true),
+  ('multi-colour-shots', '12 Shot Rider', '12-shot-rider', 120, 2, true),
+  ('multi-colour-shots', '12 Shot Multi Colour', '12-shot-multi-colour', 250, 3, true),
+  ('multi-colour-shots', '12 + 12 FIFA Shot', '12-plus-12-fifa-shot', 250, 4, true),
+  ('multi-colour-shots', '25 Shot Raiders', '25-shot-raiders', 290, 5, true),
+  ('multi-colour-shots', '30 Shot Multi Colour', '30-shot-multi-colour', 450, 6, true),
+  ('multi-colour-shots', '60 Shot Multi Colour', '60-shot-multi-colour', 850, 7, true),
+  ('multi-colour-shots', '120 Shot Multi Colour', '120-shot-multi-colour', 1700, 8, true),
+  ('multi-colour-shots', '240 Shot Multi Colour', '240-shot-multi-colour', 3400, 9, true),
+  ('multi-colour-shots', '10 x 10 Multi Colour', '10x10-multi-colour', 4500, 10, true),
+  ('multi-colour-shots', '20 Comet', '20-comet', 800, 11, true),
+  ('multi-colour-shots', 'ARD''s 30 Shot', 'ards-30-shot', 600, 12, true),
+  ('multi-colour-shots', 'ARD''s 60 Shot', 'ards-60-shot', 1200, 13, true),
+  ('multi-colour-shots', '30 Shot Crackling', '30-shot-crackling', 600, 14, true),
+  ('multi-colour-shots', '15 Multi Colour Shot', '15-multi-colour-shot', 350, 15, true),
+  -- Single Shot
+  ('single-shot', 'Pogo Shots (5 pcs)', 'pogo-shots-5-pcs', 250, 1, true),
+  ('single-shot', 'Chotta Fancy', 'chotta-fancy', 50, 2, true),
+  ('single-shot', '2" Fancy 6 Varieties', '2-inch-fancy-6-varieties', 100, 3, true),
+  ('single-shot', '3" Fancy 8 Varieties', '3-inch-fancy-8-varieties', 200, 4, true),
+  ('single-shot', '3½" Fancy 8 Varieties', '3-half-inch-fancy-8-varieties', 250, 5, true),
+  ('single-shot', '3½" Fancy (2 pcs)', '3-half-inch-fancy-2-pcs', 550, 6, true),
+  ('single-shot', '3½" Fancy Crackling', '3-half-inch-fancy-crackling', 280, 7, true),
+  ('single-shot', '3½" Fancy Nyalakone Falls', '3-half-inch-fancy-nyalakone-falls', 280, 8, true),
+  ('single-shot', '3½" Gun Out', '3-half-inch-gun-out', 200, 9, true),
+  ('single-shot', '4" Fancy 6 Varieties', '4-inch-fancy-6-varieties', 350, 10, true),
+  ('single-shot', '4" Double Ball 4 Varieties', '4-inch-double-ball-4-varieties', 450, 11, true),
+  ('single-shot', '4" Fancy (2 pcs)', '4-inch-fancy-2-pcs', 700, 12, true),
+  -- Gift Boxes
+  ('gift-boxes', 'A Box - 21 Items', 'a-box-21-items', 350, 1, true),
+  ('gift-boxes', 'B Box - 26 Items', 'b-box-26-items', 450, 2, true),
+  ('gift-boxes', 'C Box - 33 Items', 'c-box-33-items', 600, 3, true),
+  ('gift-boxes', 'D Box - 41 Items', 'd-box-41-items', 800, 4, true),
+  ('gift-boxes', 'Sonata Pack - 25 Items', 'sonata-pack-25-items', 450, 5, true),
+  ('gift-boxes', 'Rhythm Collection - 20 Items', 'rhythm-collection-20-items', 400, 6, true),
+  ('gift-boxes', 'Beat Collection - 30 Items', 'beat-collection-30-items', 550, 7, true),
+  -- One Sound Crackers (Elephant Crackers omitted — price unclear)
+  ('one-sound-crackers', '3½" Laxmi (1 pkt)', '3-half-inch-laxmi', 15, 1, true),
+  ('one-sound-crackers', '4" Laxmi (1 pkt)', '4-inch-laxmi', 25, 2, true),
+  ('one-sound-crackers', '4" Dlx Laxmi (1 pkt)', '4-inch-dlx-laxmi', 95, 3, true),
+  ('one-sound-crackers', '4" Gold Laxmi (1 pkt)', '4-inch-gold-laxmi', 35, 4, true),
+  ('one-sound-crackers', '2¾" Kuruvai (1 pkt)', '2-three-quarter-inch-kuruvai', 10, 5, true),
+  ('one-sound-crackers', '2 Sound Crackers', '2-sound-crackers', 30, 6, true),
+  ('one-sound-crackers', '2" Laxmi ARD''s', '2-inch-laxmi-ards', 10, 7, true),
+  ('one-sound-crackers', '5" Laxmi (1 pc)', '5-inch-laxmi', 50, 8, true),
+  ('one-sound-crackers', '6" Laxmi', '6-inch-laxmi', 60, 9, true),
+  ('one-sound-crackers', 'Elephant Crackers', 'elephant-crackers', 0, 10, false),
+  -- Ground Crackers (Ground Chakkar Special omitted — price unclear)
+  ('ground-crackers', 'Ground Chakkar Big', 'ground-chakkar-big', 40, 1, true),
+  ('ground-crackers', 'Ground Chakkar Special', 'ground-chakkar-special', 0, 2, false),
+  ('ground-crackers', 'Ground Chakkar Deluxe', 'ground-chakkar-deluxe', 160, 3, true),
+  ('ground-crackers', 'Rollar Coaster', 'rollar-coaster', 250, 4, true),
+  ('ground-crackers', 'Disco Wheel', 'disco-wheel', 120, 5, true)
+) as v(category_slug, name, slug, selling_price, display_order, is_active)
+join public.categories c on c.slug = v.category_slug;

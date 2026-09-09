@@ -1,0 +1,155 @@
+@import "tailwindcss";
+@import "@fontsource/poppins/400.css";
+@import "@fontsource/poppins/500.css";
+@import "@fontsource/poppins/600.css";
+@import "@fontsource/poppins/700.css";
+@import "@fontsource/poppins/800.css";
+
+/* ------------------------------------------------------------------ */
+/* Design tokens — single source of truth for the MRV Crackers theme.  */
+/* Exposed both as CSS custom properties (for bespoke effects like the */
+/* stripe/grid/marquee treatments) and as Tailwind theme values (for   */
+/* utility classes like bg-navy, text-gold, rounded-card, etc).        */
+/* ------------------------------------------------------------------ */
+@theme {
+  --font-sans: "Poppins", system-ui, sans-serif;
+
+  /* Deep navy — festive dark sections */
+  --color-navy: #0f1b3d;
+  --color-navy-dark: #0a1229;
+  --color-navy-light: #1a2b5c;
+
+  /* Crimson / festive red — primary brand accent */
+  --color-red: #c81e2c;
+  --color-red-dark: #8f0f1c;
+  --color-red-light: #e8394a;
+  --color-red-darkest: #4a0810;
+
+  /* Gold — accent for highlights, subtitles, borders */
+  --color-gold: #d4a537;
+  --color-gold-light: #f0cd6e;
+  --color-gold-dark: #a87e1f;
+
+  /* Warm neutrals */
+  --color-warm-yellow: #f6c94c;
+  --color-cream: #fdf6ec;
+  --color-off-white: #faf7f2;
+  --color-white: #ffffff;
+
+  /* Text */
+  --color-text-dark: #1c1410;
+  --color-text-muted: #6b625c;
+  --color-text-inverse: #fdf6ec;
+
+  /* Radii */
+  --radius-card-lg: 24px;
+  --radius-card: 18px;
+  --radius-btn: 12px;
+  --radius-pill: 9999px;
+
+  /* Shadows */
+  --shadow-soft: 0 4px 20px rgba(15, 27, 61, 0.08);
+  --shadow-card: 0 8px 30px rgba(15, 27, 61, 0.10);
+  --shadow-float: 0 10px 34px rgba(15, 27, 61, 0.28);
+  --shadow-glow-red: 0 6px 24px rgba(200, 30, 44, 0.35);
+  --shadow-glow-gold: 0 6px 24px rgba(212, 165, 55, 0.35);
+
+  --container-page: 1280px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-off-white text-text-dark antialiased;
+    font-feature-settings: "kern";
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-bold leading-tight;
+  }
+
+  ::selection {
+    background: var(--color-gold-light);
+    color: var(--color-navy-dark);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  .container-page {
+    @apply mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Subtle low-contrast grid for dark festive sections. Pure CSS, no image. */
+  .bg-grid-navy {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Diagonal stripe treatment used by the estimate table's category divider rows */
+  .bg-stripes-red {
+    background-color: var(--color-red-darkest);
+    background-image: repeating-linear-gradient(
+      135deg,
+      var(--color-red-darkest) 0px,
+      var(--color-red-darkest) 22px,
+      var(--color-red-dark) 22px,
+      var(--color-red-dark) 44px
+    );
+  }
+
+  .text-shadow-soft {
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Continuous marquee for the promotional ticker */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+
+/* Soft ambient glow used behind hero/decorative elements */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.9; }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-marquee,
+  .animate-pulse-glow {
+    animation: none !important;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
