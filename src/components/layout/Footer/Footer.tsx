@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { MapPin, Phone, MessageCircle } from "lucide-react";
 import { useSiteSettings } from "../../../hooks/useSiteSettings";
+import { formatPhoneDisplay } from "../../../lib/utils";
 
 export function Footer() {
   const { settings } = useSiteSettings();
@@ -48,7 +49,7 @@ export function Footer() {
             </li>
             <li className="flex items-start gap-2.5">
               <MessageCircle size={16} className="mt-0.5 shrink-0 text-gold-light" aria-hidden />
-              <span>{settings.whatsapp_number}</span>
+              <span>{formatPhoneDisplay(settings.whatsapp_number)}</span>
             </li>
             <li className="flex items-start gap-2.5">
               <MapPin size={16} className="mt-0.5 shrink-0 text-gold-light" aria-hidden />

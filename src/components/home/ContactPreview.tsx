@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { MapPin, Phone, MessageCircle, ArrowRight } from "lucide-react";
 import { Button } from "../ui/Button";
 import { useSiteSettings } from "../../hooks/useSiteSettings";
+import { formatPhoneDisplay } from "../../lib/utils";
 
 export function ContactPreview() {
   const { settings } = useSiteSettings();
@@ -17,7 +18,7 @@ export function ContactPreview() {
               <Phone size={16} className="text-red" aria-hidden /> {settings.phone}
             </span>
             <span className="flex items-center gap-2 text-sm font-semibold text-text-dark">
-              <MessageCircle size={16} className="text-red" aria-hidden /> {settings.whatsapp_number}
+              <MessageCircle size={16} className="text-red" aria-hidden /> {formatPhoneDisplay(settings.whatsapp_number)}
             </span>
             <span className="flex items-center gap-2 text-sm font-semibold text-text-dark">
               <MapPin size={16} className="text-red" aria-hidden /> {settings.city}
