@@ -8,6 +8,7 @@ import { CartSummary } from "../../components/cart/CartSummary";
 import { CustomerForm } from "../../components/cart/CustomerForm";
 import { Button } from "../../components/ui/Button";
 import { buildOrderMessage, openWhatsApp, type CustomerDetails } from "../../lib/whatsapp";
+import { formatCurrency } from "../../lib/utils";
 
 const EMPTY_CUSTOMER: CustomerDetails = { name: "", mobile: "", city: "", address: "", notes: "" };
 
@@ -112,8 +113,11 @@ export default function Cart() {
               fullWidth
               icon={<MessageCircle size={18} />}
               onClick={handleOrder}
+              disabled={belowMinimum}
             >
-              Order via WhatsApp
+              {belowMinimum
+                ? `Add ${formatCurrency(settings.minimum_order_amount - total)} More to Order`
+                : "Order via WhatsApp"}
             </Button>
             <Button size="md" variant="secondary" fullWidth icon={<Download size={16} />} onClick={handleDownloadPdf}>
               Download Order Summary (PDF)
