@@ -41,6 +41,7 @@ export type SiteSettings = {
   address: string;
   city: string;
   minimum_order_amount: number;
+  hero_discount_percent: number;
   ticker_text: string;
   footer_text: string;
   created_at: string;

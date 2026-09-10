@@ -38,6 +38,7 @@ export default function AdminSettings() {
         address: settings.address,
         city: settings.city,
         minimum_order_amount: settings.minimum_order_amount,
+        hero_discount_percent: settings.hero_discount_percent,
         ticker_text: settings.ticker_text,
         footer_text: settings.footer_text,
       });
@@ -87,6 +88,18 @@ export default function AdminSettings() {
             value={settings.minimum_order_amount}
             onChange={(e) => update("minimum_order_amount", Number(e.target.value) || 0)}
           />
+          <div>
+            <Input
+              label="Homepage Discount Badge (%)"
+              type="number"
+              value={settings.hero_discount_percent}
+              onChange={(e) => update("hero_discount_percent", Number(e.target.value) || 0)}
+            />
+            <p className="mt-1.5 text-xs text-text-muted">
+              Shown on the homepage hero ("Up to X% Off"). Keep this at or below your actual
+              maximum discount across active products.
+            </p>
+          </div>
           <Textarea label="Ticker Text" value={settings.ticker_text} onChange={(e) => update("ticker_text", e.target.value)} />
           <Textarea label="Footer Text" value={settings.footer_text} onChange={(e) => update("footer_text", e.target.value)} />
 

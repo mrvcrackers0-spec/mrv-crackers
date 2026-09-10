@@ -18,6 +18,7 @@ export const mockSiteSettings: SiteSettings = {
   address: "123 Market Street, Crackers Nagar",
   city: "Sivakasi, Tamil Nadu",
   minimum_order_amount: 3000,
+  hero_discount_percent: 40,
   ticker_text: "MRV Crackers • Premium Crackers • Festival Offers • Best Deals • Shop Now",
   footer_text: "Your trusted destination for premium festival crackers.",
   created_at: new Date().toISOString(),

@@ -140,12 +140,58 @@
   animation: pulse-glow 4s ease-in-out infinite;
 }
 
+/* Gentle 3D float used for the hero's central visual — depth via
+   perspective + a slight rotateX, not just a flat bob. */
+@keyframes float-3d {
+  0%, 100% { transform: perspective(800px) translateY(0) rotateX(0deg); }
+  50% { transform: perspective(800px) translateY(-14px) rotateX(6deg); }
+}
+
+.animate-float-3d {
+  animation: float-3d 5s ease-in-out infinite;
+}
+
+/* Wobbling "coin" effect for the discount seal — oscillates within
+   +/-14deg on the Y axis so the face never flips to its (nonexistent)
+   backside, while still reading clearly as three-dimensional. */
+@keyframes seal-wobble {
+  0%, 100% { transform: perspective(600px) rotateY(-14deg) rotate(-6deg); }
+  50% { transform: perspective(600px) rotateY(14deg) rotate(-6deg); }
+}
+
+.animate-seal-wobble {
+  animation: seal-wobble 3.5s ease-in-out infinite;
+}
+
+/* Slow orbit for decorative rings/particles around the hero visual */
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 22s linear infinite;
+}
+
+/* Staggered entrance for hero copy — fades and settles upward */
+@keyframes fade-slide-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-slide-up {
+  animation: fade-slide-up 0.6s ease-out both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
   .animate-marquee,
-  .animate-pulse-glow {
+  .animate-pulse-glow,
+  .animate-float-3d,
+  .animate-seal-wobble,
+  .animate-spin-slow,
+  .animate-fade-slide-up {
     animation: none !important;
   }
   * {

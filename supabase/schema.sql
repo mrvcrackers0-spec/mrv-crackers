@@ -57,6 +57,7 @@ create table if not exists public.site_settings (
   address text not null default '',
   city text not null default '',
   minimum_order_amount numeric(10, 2) not null default 0,
+  hero_discount_percent numeric(5, 2) not null default 40,
   ticker_text text not null default '',
   footer_text text not null default '',
   created_at timestamptz not null default now(),
