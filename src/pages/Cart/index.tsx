@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Download, MessageCircle, PackageOpen } from "lucide-react";
 import { useCartStore, cartTotals } from "../../context/CartStore";
@@ -21,6 +21,7 @@ export default function Cart() {
   const [customer, setCustomer] = useState<CustomerDetails>(EMPTY_CUSTOMER);
   const [errors, setErrors] = useState<Partial<Record<keyof CustomerDetails, string>>>({});
   const [formNotice, setFormNotice] = useState<string | null>(null);
+  const customerFormRef = useRef<HTMLDivElement>(null);
 
   const { subtotal, savings, total } = cartTotals(items);
   const belowMinimum = settings.minimum_order_amount > 0 && total < settings.minimum_order_amount;
@@ -28,7 +29,14 @@ export default function Cart() {
   function validate(): boolean {
     const nextErrors: Partial<Record<keyof CustomerDetails, string>> = {};
     if (!customer.name.trim()) nextErrors.name = "Name is required.";
-    if (!/^\d{10}$/.test(customer.mobile.replace(/\D/g, ""))) nextErrors.mobile = "Enter a valid 10-digit mobile number.";
+
+    // Accept a bare 10-digit number or one with a country code / leading 0
+    // prefix (e.g. "+91 99948 12945") — validate against the last 10 digits.
+    const mobileDigits = customer.mobile.replace(/\D/g, "");
+    if (mobileDigits.length < 10 || !/^\d{10}$/.test(mobileDigits.slice(-10))) {
+      nextErrors.mobile = "Enter a valid 10-digit mobile number.";
+    }
+
     if (!customer.city.trim()) nextErrors.city = "City is required.";
     if (!customer.address.trim()) nextErrors.address = "Address is required.";
     setErrors(nextErrors);
@@ -42,7 +50,11 @@ export default function Cart() {
       setFormNotice(`Minimum order amount is ₹${settings.minimum_order_amount.toLocaleString("en-IN")}.`);
       return;
     }
-    if (!validate()) return;
+    if (!validate()) {
+      setFormNotice("Please check the highlighted fields below.");
+      customerFormRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
 
     const message = buildOrderMessage(customer, items);
     openWhatsApp(settings.whatsapp_number, message);
@@ -101,7 +113,9 @@ export default function Cart() {
               total={total}
               minimumOrderAmount={settings.minimum_order_amount}
             />
-            <CustomerForm values={customer} onChange={setCustomer} errors={errors} />
+            <div ref={customerFormRef}>
+              <CustomerForm values={customer} onChange={setCustomer} errors={errors} />
+            </div>
 
             {formNotice && (
               <p className="rounded-[10px] bg-red/10 p-3 text-sm font-semibold text-red">{formNotice}</p>
