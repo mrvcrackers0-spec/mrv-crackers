@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { MessageCircle, Sparkles, Star, ArrowRight, Gem } from "lucide-react";
+import { MessageCircle, Sparkles, Star, ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "../ui/Button";
 import { useSiteSettings } from "../../hooks/useSiteSettings";
 import { openWhatsApp } from "../../lib/whatsapp";
@@ -12,6 +12,8 @@ const SPARKLE_DOTS = [
   { top: "18%", left: "92%", size: 8, delay: "0.9s" },
   { top: "58%", left: "88%", size: 6, delay: "1.5s" },
 ];
+
+const BUYER_HIGHLIGHTS = ["Up to 40% Off", "171+ Products", "Direct WhatsApp Order", "No App, No Login"];
 
 export function Hero() {
   const { settings } = useSiteSettings();
@@ -42,33 +44,40 @@ export function Hero() {
         />
       ))}
 
-      <div className="container-page relative grid min-h-[560px] items-center gap-10 py-16 sm:min-h-[640px] sm:py-20 lg:min-h-[680px] lg:grid-cols-2 lg:py-24">
-        <div className="flex max-w-[600px] flex-col items-start gap-6">
-          <span className="inline-flex items-center gap-2 rounded-pill border border-gold/40 bg-white/5 px-4 py-2 text-xs font-bold uppercase tracking-wider text-gold-light">
+      <div className="container-page relative grid min-h-[600px] items-center gap-10 py-16 sm:min-h-[660px] sm:py-20 lg:min-h-[700px] lg:grid-cols-2 lg:py-24">
+        <div className="flex max-w-[600px] flex-col items-start gap-5">
+          <span className="inline-flex items-center gap-2 rounded-pill bg-gradient-to-r from-red to-red-dark px-4 py-2 text-xs font-extrabold uppercase tracking-wider text-white shadow-glow-red">
             <Sparkles size={14} aria-hidden />
-            MRV Crackers • Premium Festive Store
+            Up to 40% Off • This Festive Season
           </span>
 
-          <h1 className="text-4xl font-extrabold leading-[1.08] text-white text-shadow-soft sm:text-5xl lg:text-[64px]">
-            Celebrate Diwali <br />
-            With <span className="text-gold-light">More Spark.</span>
+          <h1 className="text-4xl font-extrabold leading-[1.08] text-white text-shadow-soft sm:text-5xl lg:text-[60px]">
+            Premium Crackers,<br />
+            <span className="text-gold-light">Unbeatable Prices.</span>
           </h1>
 
           <p className="max-w-[520px] text-base leading-relaxed text-cream/80 sm:text-lg">
-            Explore a wide range of quality crackers, build your own estimate,
-            and place your order in minutes — straight to WhatsApp.
+            171+ crackers across 15 categories at direct, festive pricing. Build your
+            estimate and send it straight to WhatsApp — no app to install, no account
+            to create.
           </p>
 
-          <div className="flex items-center gap-3 text-gold-light/60" aria-hidden>
-            <span className="h-px w-12 bg-gradient-to-r from-transparent to-gold-light/50" />
-            <Gem size={14} />
-            <span className="h-px w-12 bg-gradient-to-l from-transparent to-gold-light/50" />
-          </div>
+          <ul className="flex flex-wrap gap-2.5" aria-label="Why shop with us">
+            {BUYER_HIGHLIGHTS.map((item) => (
+              <li
+                key={item}
+                className="inline-flex items-center gap-1.5 rounded-pill border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-cream/90"
+              >
+                <CheckCircle2 size={13} className="text-gold-light" aria-hidden />
+                {item}
+              </li>
+            ))}
+          </ul>
 
-          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+          <div className="mt-1 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
             <Link to="/estimate" className="w-full sm:w-auto">
               <Button size="lg" fullWidth icon={<ArrowRight size={18} />} className="sm:w-auto">
-                Browse Crackers
+                Shop & Save Now
               </Button>
             </Link>
             <Button
@@ -97,7 +106,7 @@ export function Hero() {
 
           {/* Smaller accent bursts around the main sparkle */}
           <Sparkles
-            className="absolute left-[8%] top-[18%] h-10 w-10 rotate-[-15deg] text-red-light/70 drop-shadow-lg sm:h-12 sm:w-12"
+            className="absolute right-[8%] top-[18%] h-10 w-10 rotate-[15deg] text-red-light/70 drop-shadow-lg sm:h-12 sm:w-12"
             strokeWidth={1.25}
             aria-hidden
           />
@@ -111,6 +120,22 @@ export function Hero() {
             strokeWidth={1}
             aria-hidden
           />
+
+          {/* Discount seal — the strongest buyer-facing signal in the hero.
+              Kept on the LEFT so it never sits under the floating WhatsApp
+              button, which is fixed to the bottom-right of the viewport. */}
+          <div
+            className="absolute -left-2 top-2 flex h-24 w-24 rotate-[-6deg] items-center justify-center sm:h-28 sm:w-28 lg:-left-4 lg:top-6"
+            aria-hidden
+          >
+            <div className="absolute inset-0 rotate-[20deg] rounded-2xl bg-red" />
+            <div className="absolute inset-0 -rotate-[16deg] rounded-2xl bg-red-dark" />
+            <div className="relative flex h-full w-full flex-col items-center justify-center rounded-full border-2 border-gold-light bg-gradient-to-br from-red to-red-dark text-center leading-none text-white shadow-glow-red">
+              <span className="text-[10px] font-bold uppercase tracking-wide sm:text-xs">Upto</span>
+              <span className="text-2xl font-extrabold sm:text-3xl">40%</span>
+              <span className="text-[10px] font-bold uppercase tracking-wide sm:text-xs">Off</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
