@@ -15,22 +15,28 @@ delete from public.categories;
 -- ------------------------------------------------------------
 -- Categories (display order)
 -- ------------------------------------------------------------
+-- Order matches the printed 2026 price list. Wheels + the old
+-- Ground Crackers category are merged into one ("Ground Chakkar &
+-- Wheels"); Children Special and Combo Packs are new and start
+-- empty; Special Items isn't on the price list, so it's appended
+-- at the end rather than dropped.
 insert into public.categories (name, slug, display_order, is_active) values
-  ('Special Items', 'special-items', 1, true),
+  ('One Sound Crackers', 'one-sound-crackers', 1, true),
   ('Crackers', 'crackers', 2, true),
   ('Loose Crackers', 'loose-crackers', 3, true),
-  ('Rockets', 'rockets', 4, true),
-  ('Sparklers', 'sparklers', 5, true),
-  ('Wheels', 'wheels', 6, true),
+  ('Bombs', 'bombs', 4, true),
+  ('Rockets', 'rockets', 5, true),
+  ('Ground Chakkar & Wheels', 'ground-chakkar-wheels', 6, true),
   ('Flower Pots', 'flower-pots', 7, true),
-  ('Fancy Items', 'fancy-items', 8, true),
-  ('Colour Matches', 'colour-matches', 9, true),
-  ('Bombs', 'bombs', 10, true),
+  ('Sparklers', 'sparklers', 8, true),
+  ('Single Shot', 'single-shot', 9, true),
+  ('Fancy Items', 'fancy-items', 10, true),
   ('Multi Colour Shots', 'multi-colour-shots', 11, true),
-  ('Single Shot', 'single-shot', 12, true),
-  ('Gift Boxes', 'gift-boxes', 13, true),
-  ('One Sound Crackers', 'one-sound-crackers', 14, true),
-  ('Ground Crackers', 'ground-crackers', 15, true);
+  ('Children Special', 'children-special', 12, true),
+  ('Colour Matches', 'colour-matches', 13, true),
+  ('Gift Boxes', 'gift-boxes', 14, true),
+  ('Combo Packs', 'combo-packs', 15, true),
+  ('Special Items', 'special-items', 16, true);
 
 -- ------------------------------------------------------------
 -- Products (linked to categories via slug lookup)
@@ -99,11 +105,11 @@ from (values
   ('sparklers', '30cm Colour Sparklers', '30cm-colour-sparklers', 50, 12, true),
   ('sparklers', '50cm Electric Sparklers', '50cm-electric-sparklers', 200, 13, true),
   ('sparklers', '75cm Electric Sparklers', '75cm-electric-sparklers', 300, 14, true),
-  -- Wheels
-  ('wheels', 'Giant Wheel', 'giant-wheel', 280, 1, true),
-  ('wheels', 'Ground Chakkar Asoka', 'ground-chakkar-asoka', 90, 2, true),
-  ('wheels', '4 x 4 Wheel', '4x4-wheel', 200, 3, true),
-  ('wheels', 'Whistling Wheel', 'whistling-wheel', 280, 4, true),
+  -- Ground Chakkar & Wheels (merged: Wheels + former Ground Crackers)
+  ('ground-chakkar-wheels', 'Giant Wheel', 'giant-wheel', 280, 1, true),
+  ('ground-chakkar-wheels', 'Ground Chakkar Asoka', 'ground-chakkar-asoka', 90, 2, true),
+  ('ground-chakkar-wheels', '4 x 4 Wheel', '4x4-wheel', 200, 3, true),
+  ('ground-chakkar-wheels', 'Whistling Wheel', 'whistling-wheel', 280, 4, true),
   -- Flower Pots
   ('flower-pots', 'Flower Pots Small', 'flower-pots-small', 50, 1, true),
   ('flower-pots', 'Flower Pots Big', 'flower-pots-big', 90, 2, true),
@@ -218,11 +224,11 @@ from (values
   ('one-sound-crackers', '5" Laxmi (1 pc)', '5-inch-laxmi', 50, 8, true),
   ('one-sound-crackers', '6" Laxmi', '6-inch-laxmi', 60, 9, true),
   ('one-sound-crackers', 'Elephant Crackers', 'elephant-crackers', 0, 10, false),
-  -- Ground Crackers (Ground Chakkar Special omitted — price unclear)
-  ('ground-crackers', 'Ground Chakkar Big', 'ground-chakkar-big', 40, 1, true),
-  ('ground-crackers', 'Ground Chakkar Special', 'ground-chakkar-special', 0, 2, false),
-  ('ground-crackers', 'Ground Chakkar Deluxe', 'ground-chakkar-deluxe', 160, 3, true),
-  ('ground-crackers', 'Rollar Coaster', 'rollar-coaster', 250, 4, true),
-  ('ground-crackers', 'Disco Wheel', 'disco-wheel', 120, 5, true)
+  -- Ground Chakkar & Wheels, continued (Ground Chakkar Special omitted — price unclear)
+  ('ground-chakkar-wheels', 'Ground Chakkar Big', 'ground-chakkar-big', 40, 5, true),
+  ('ground-chakkar-wheels', 'Ground Chakkar Special', 'ground-chakkar-special', 0, 6, false),
+  ('ground-chakkar-wheels', 'Ground Chakkar Deluxe', 'ground-chakkar-deluxe', 160, 7, true),
+  ('ground-chakkar-wheels', 'Rollar Coaster', 'rollar-coaster', 250, 8, true),
+  ('ground-chakkar-wheels', 'Disco Wheel', 'disco-wheel', 120, 9, true)
 ) as v(category_slug, name, slug, selling_price, display_order, is_active)
 join public.categories c on c.slug = v.category_slug;
