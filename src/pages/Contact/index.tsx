@@ -1,12 +1,9 @@
-import { MapPin, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
 import { useSiteSettings } from "../../hooks/useSiteSettings";
 import { ContactForm } from "../../components/contact/ContactForm";
 
 export default function Contact() {
   const { settings } = useSiteSettings();
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    `${settings.address}, ${settings.city}`
-  )}`;
 
   return (
     <div className="relative overflow-hidden bg-cream py-14 sm:py-20">
@@ -26,22 +23,13 @@ export default function Contact() {
             </p>
           </div>
 
-          <div className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div className="mb-8">
             <a
               href={`tel:${settings.phone.replace(/\s/g, "")}`}
               className="flex h-12 items-center justify-center gap-2 rounded-[14px] border border-red/20 bg-cream text-sm font-bold text-red-dark transition-colors hover:bg-red/5"
             >
               <Phone size={16} aria-hidden />
               Contact No: {settings.phone}
-            </a>
-            <a
-              href={mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-12 items-center justify-center gap-2 rounded-[14px] border border-red/20 bg-cream text-sm font-bold text-red-dark transition-colors hover:bg-red/5"
-            >
-              <MapPin size={16} aria-hidden />
-              View Location
             </a>
           </div>
 
