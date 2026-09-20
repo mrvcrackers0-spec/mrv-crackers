@@ -47,17 +47,34 @@ export default function AdminProducts() {
     load();
   }, []);
 
+  // Product display_order restarts at 1 for every category, so sorting
+  // products by that alone (as the raw fetch does) jumbles items from
+  // different categories together. Sort by the category's own
+  // display_order first, then the product's — matching how the public
+  // site groups the catalog.
+  const categoryOrderMap = useMemo(() => {
+    const map = new Map<string, number>();
+    categories.forEach((c) => map.set(c.id, c.display_order));
+    return map;
+  }, [categories]);
+
   const filtered = useMemo(() => {
     const query = search.trim().toLowerCase();
-    return products.filter((p) => {
-      if (query && !p.name.toLowerCase().includes(query)) return false;
-      if (categoryFilter !== "all" && p.category_id !== categoryFilter) return false;
-      if (statusFilter === "active" && !p.is_active) return false;
-      if (statusFilter === "inactive" && p.is_active) return false;
-      if (featuredOnly && !p.is_featured) return false;
-      return true;
-    });
-  }, [products, search, categoryFilter, statusFilter, featuredOnly]);
+    return products
+      .filter((p) => {
+        if (query && !p.name.toLowerCase().includes(query)) return false;
+        if (categoryFilter !== "all" && p.category_id !== categoryFilter) return false;
+        if (statusFilter === "active" && !p.is_active) return false;
+        if (statusFilter === "inactive" && p.is_active) return false;
+        if (featuredOnly && !p.is_featured) return false;
+        return true;
+      })
+      .sort((a, b) => {
+        const categoryDiff = (categoryOrderMap.get(a.category_id) ?? 0) - (categoryOrderMap.get(b.category_id) ?? 0);
+        if (categoryDiff !== 0) return categoryDiff;
+        return a.display_order - b.display_order;
+      });
+  }, [products, search, categoryFilter, statusFilter, featuredOnly, categoryOrderMap]);
 
   function categoryName(id: string) {
     return categories.find((c) => c.id === id)?.name ?? "—";
