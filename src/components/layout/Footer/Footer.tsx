@@ -53,8 +53,20 @@ export function Footer() {
             </li>
             <li className="flex items-start gap-2.5">
               <MapPin size={16} className="mt-0.5 shrink-0 text-gold-light" aria-hidden />
-              <span>{settings.address}, {settings.city}</span>
+              <span>
+                <span className="font-semibold text-gold-light/90">Main Office: </span>
+                {settings.address}, {settings.city}
+              </span>
             </li>
+            {settings.branch_address && (
+              <li className="flex items-start gap-2.5">
+                <MapPin size={16} className="mt-0.5 shrink-0 text-gold-light" aria-hidden />
+                <span>
+                  <span className="font-semibold text-gold-light/90">Branch: </span>
+                  {settings.branch_address}
+                </span>
+              </li>
+            )}
           </ul>
         </div>
 

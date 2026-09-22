@@ -17,6 +17,7 @@ export const mockSiteSettings: SiteSettings = {
   email: "info@mrvcrackers.example",
   address: "123 Market Street, Crackers Nagar",
   city: "Sivakasi, Tamil Nadu",
+  branch_address: null,
   minimum_order_amount: 3000,
   hero_discount_percent: 40,
   ticker_text: "MRV Crackers • Premium Crackers • Festival Offers • Best Deals • Shop Now",

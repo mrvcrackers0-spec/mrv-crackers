@@ -40,6 +40,7 @@ export type SiteSettings = {
   email: string | null;
   address: string;
   city: string;
+  branch_address: string | null;
   minimum_order_amount: number;
   hero_discount_percent: number;
   ticker_text: string;

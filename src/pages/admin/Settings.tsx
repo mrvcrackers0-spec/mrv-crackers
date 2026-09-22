@@ -37,6 +37,7 @@ export default function AdminSettings() {
         email: settings.email,
         address: settings.address,
         city: settings.city,
+        branch_address: settings.branch_address,
         minimum_order_amount: settings.minimum_order_amount,
         hero_discount_percent: settings.hero_discount_percent,
         ticker_text: settings.ticker_text,
@@ -80,8 +81,13 @@ export default function AdminSettings() {
             <Input label="WhatsApp Number" value={settings.whatsapp_number} onChange={(e) => update("whatsapp_number", e.target.value)} />
           </div>
           <Input label="Email" type="email" value={settings.email ?? ""} onChange={(e) => update("email", e.target.value)} />
-          <Textarea label="Address" value={settings.address} onChange={(e) => update("address", e.target.value)} />
+          <Textarea label="Address (Main Office)" value={settings.address} onChange={(e) => update("address", e.target.value)} />
           <Input label="City" value={settings.city} onChange={(e) => update("city", e.target.value)} />
+          <Textarea
+            label="Branch Address (optional)"
+            value={settings.branch_address ?? ""}
+            onChange={(e) => update("branch_address", e.target.value || null)}
+          />
           <Input
             label="Minimum Order Amount (₹)"
             type="number"
